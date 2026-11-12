@@ -164,6 +164,8 @@
         .certificate-card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.02); transition: all 0.3s ease; }
         .certificate-card:hover { transform: translateY(-7px); border-color: var(--accent); box-shadow: 0 18px 35px rgba(0,0,0,0.08); }
         .certificate-card img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background-color: var(--input-bg); }
+        .certificate-file-preview { width: 100%; aspect-ratio: 4 / 3; background-color: var(--input-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--text-muted); }
+        .certificate-file-preview i { color: var(--accent); font-size: 3rem; }
         .certificate-card h3 { padding: 16px 18px; color: var(--text-main); font-size: 1rem; overflow-wrap: anywhere; }
         .certificates-status { width: 100%; min-height: 150px; background-color: var(--input-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
         .certificates-status[hidden] { display: none; }
@@ -646,7 +648,7 @@
 
         const certificatesGrid = document.getElementById('certificatesGrid');
         const certificatesStatus = document.getElementById('certificatesStatus');
-        const certificateImageExtensions = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif']);
+        const certificateExtensions = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.pdf']);
 
         function createCertificateCard(file) {
             const card = document.createElement('a');
@@ -654,16 +656,30 @@
             card.href = file.html_url;
             card.target = '_blank';
             card.rel = 'noopener noreferrer';
-            card.setAttribute('aria-label', `${file.name} sertifika görselini GitHub'da aç`);
+            card.setAttribute('aria-label', `${file.name} sertifikasını GitHub'da aç`);
 
-            const image = document.createElement('img');
-            image.src = file.download_url;
-            image.alt = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
-            image.loading = 'lazy';
+            const fileName = file.name.replace(/\.[^.]+$/, '');
+            if (/\.pdf$/i.test(file.name)) {
+                const preview = document.createElement('div');
+                preview.className = 'certificate-file-preview';
+                preview.setAttribute('aria-hidden', 'true');
+                const icon = document.createElement('i');
+                icon.className = 'fa-solid fa-file-pdf';
+                const label = document.createElement('span');
+                label.textContent = 'PDF sertifikası';
+                preview.append(icon, label);
+                card.appendChild(preview);
+            } else {
+                const image = document.createElement('img');
+                image.src = file.download_url;
+                image.alt = fileName.replace(/[-_]+/g, ' ');
+                image.loading = 'lazy';
+                card.appendChild(image);
+            }
 
             const title = document.createElement('h3');
-            title.textContent = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
-            card.append(image, title);
+            title.textContent = fileName.replace(/[-_]+/g, ' ');
+            card.appendChild(title);
             return card;
         }
 
@@ -684,28 +700,28 @@
                     throw new Error('GitHub API beklenen sertifika dosyası listesini döndürmedi.');
                 }
 
-                const images = files.filter(file =>
+                const certificates = files.filter(file =>
                     file.type === 'file' &&
-                    certificateImageExtensions.has(file.name.slice(file.name.lastIndexOf('.')).toLowerCase()) &&
+                    certificateExtensions.has(file.name.slice(file.name.lastIndexOf('.')).toLowerCase()) &&
                     file.download_url &&
                     file.html_url
                 );
 
-                if (!images.length) {
+                if (!certificates.length) {
                     certificatesGrid.replaceChildren();
                     const icon = document.createElement('i');
                     icon.className = 'fa-solid fa-certificate';
                     icon.setAttribute('aria-hidden', 'true');
                     const message = document.createElement('span');
-                    message.textContent = 'Henüz sertifika görseli yok. Görselleri sertifikalar klasörüne ekleyebilirsiniz.';
+                    message.textContent = 'Henüz sertifika yok. Görselleri veya PDF belgelerini sertifikalar klasörüne ekleyebilirsiniz.';
                     certificatesStatus.replaceChildren(icon, message);
                     certificatesStatus.hidden = false;
                     return;
                 }
 
                 const certificateCards = document.createDocumentFragment();
-                images.sort((a, b) => a.name.localeCompare(b.name, 'tr', { numeric: true }));
-                images.forEach(file => certificateCards.appendChild(createCertificateCard(file)));
+                certificates.sort((a, b) => a.name.localeCompare(b.name, 'tr', { numeric: true }));
+                certificates.forEach(file => certificateCards.appendChild(createCertificateCard(file)));
                 certificatesGrid.replaceChildren(certificateCards);
                 certificatesStatus.hidden = true;
             } catch (error) {
