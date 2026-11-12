@@ -110,6 +110,7 @@
         .social-btn:hover::after, .social-btn:hover::before { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
         .social-btn.disco   rd:hover { color: #5865F2; } .social-btn.github:hover { color: #333; } [data-theme="dark"] .social-btn.github:hover { color: #ffffff; }
         .social-btn.instagram:hover { color: transparent; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; transform: translateY(-6px) scale(1.1); }
+        .social-btn.linkedin:hover { color: #0a66c2; }
         .image-content { flex: 1; display: flex; justify-content: flex-end; align-items: center; opacity: 0; animation: fadeInRight 1s ease-out 0.3s forwards; }
         .blob-wrapper { position: relative; animation: float 6s ease-in-out infinite; z-index: 2; }
         .blob-wrapper::before { content: ''; position: absolute; top: 5%; left: 5%; width: 90%; height: 90%; background-image: url('17732646902281 (1).jpg'); background-size: cover; background-position: center; filter: blur(45px) saturate(150%); opacity: var(--glow-opacity); z-index: -1; animation: blobMorph 8s ease-in-out infinite; transition: opacity 0.4s ease; }
@@ -152,6 +153,13 @@
         .project-card:hover .project-header h3, .project-card:hover .project-header i { color: var(--accent); }
         .project-card:hover .project-header i { transform: translate(3px, -3px) scale(1.1); }
 
+        /* CERTIFICATES */
+        #certificates { flex-direction: column; align-items: flex-start; }
+        .certificates-empty { width: 100%; min-height: 220px; background-color: var(--input-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 35px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; }
+        .certificates-empty i { font-size: 2.5rem; color: var(--accent); }
+        .certificates-empty h3 { color: var(--text-main); font-size: 1.25rem; }
+        .certificates-empty p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+
         /* --- CONTACT (DISCORD PROFILE KARTI) --- */
         #contact { flex-direction: column; align-items: center; justify-content: flex-start; }
         
@@ -182,6 +190,11 @@
         .discord-profile div, .discord-profile p, .discord-profile h3, .discord-profile span {
             font-family: "gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
+
+        .contact-methods { width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .contact-method { min-width: 0; text-decoration: none; }
+        .contact-method .info-details { min-width: 0; }
+        .contact-method .info-details p { font-size: 0.9rem; overflow-wrap: anywhere; }
 
         .dc-banner { width: 100%; height: 100px; background-color: var(--dc-banner-bg); }
         .dc-header { position: relative; padding: 0 16px; }
@@ -324,6 +337,7 @@
                         <li><a href="#about" class="nav-link">About</a></li>
                         <li><a href="#skills" class="nav-link">Skills</a></li>
                         <li><a href="#works" class="nav-link">Works</a></li>
+                        <li><a href="#certificates" class="nav-link">Sertifikalarım</a></li>
                         <li><a href="#contact" class="nav-link">Contact</a></li>
                     </ul>
                 </nav>
@@ -341,8 +355,8 @@
                     <a href="https://discord.gg/mF3bjSvbHJ" target="_blank" class="social-btn discord" data-tooltip="@enderahmet">
                         <i class="fa-brands fa-discord"></i>
                     </a>
-                    <a href="https://www.tiktok.com/@kuton_" target="_blank" class="social-btn tiktok" data-tooltip="@kuton_">
-                        <i class="fa-brands fa-tiktok"></i>
+                    <a href="https://www.linkedin.com/in/ahmet-dede-6b1366442/" target="_blank" rel="noopener noreferrer" class="social-btn linkedin" data-tooltip="LinkedIn">
+                        <i class="fa-brands fa-linkedin"></i>
                     </a>
                     <a href="https://instagram.com/Ahm3tym" target="_blank" class="social-btn instagram" data-tooltip="@Ahm3tym">
                         <i class="fa-brands fa-instagram"></i>
@@ -404,8 +418,17 @@
             </div>
         </section>
 
+        <section id="certificates" class="page-section">
+            <h2 class="section-title">Sertifikalar<span>ım</span></h2>
+            <div class="certificates-empty">
+                <i class="fa-solid fa-certificate" aria-hidden="true"></i>
+                <h3>Sertifikalarım yakında burada</h3>
+                <p>Sertifika bilgileri eklendiğinde bu bölümde görüntülenecek.</p>
+            </div>
+        </section>
+
         <section id="contact" class="page-section">
-            <h2 class="section-title" style="text-align: center;">Contact via <span>Discord</span></h2>
+            <h2 class="section-title" style="text-align: center;">Contact <span>Me</span></h2>
             
             <div class="discord-wrapper">
                 
@@ -461,6 +484,21 @@
                     </div>
                 </div>
 
+            </div>
+
+            <div class="contact-methods">
+                <a href="mailto:ahmetdede1030@gmail.com" class="info-card contact-method">
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                    <div class="info-details"><h4>E-posta</h4><p>ahmetdede1030@gmail.com</p></div>
+                </a>
+                <a href="https://instagram.com/Ahm3tym" target="_blank" rel="noopener noreferrer" class="info-card contact-method">
+                    <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+                    <div class="info-details"><h4>Instagram</h4><p>@Ahm3tym</p></div>
+                </a>
+                <a href="https://www.linkedin.com/in/ahmet-dede-6b1366442/" target="_blank" rel="noopener noreferrer" class="info-card contact-method">
+                    <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+                    <div class="info-details"><h4>LinkedIn</h4><p>Ahmed Dede</p></div>
+                </a>
             </div>
         </section>
         
